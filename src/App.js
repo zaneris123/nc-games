@@ -1,10 +1,20 @@
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Header from './components/Header.jsx'
+import { useState } from 'react';
+import Login from './components/Login';
+import AllReviews from './components/AllReviews';
 
 function App() {
-  return (
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [username, setUserName] = useState("A USER")
+
+  return !isLoggedIn ? (<Login/>):(
     <div className="App">
-      <header className="App-header">
-      </header>
+      <Header/>
+      <Routes>
+        <Route path="/reviews" element={<AllReviews/>}/>
+      </Routes>
     </div>
   );
 }
