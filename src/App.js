@@ -4,6 +4,7 @@ import Header from './components/Header.jsx'
 import { useState } from 'react';
 import Login from './components/Login';
 import AllReviews from './components/AllReviews';
+import SingleReview from './components/SingleReview';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true)
@@ -14,6 +15,7 @@ function App() {
       <Header/>
       <Routes>
         <Route path="/reviews" element={<AllReviews/>}/>
+        <Route path="/reviews/:reviewID" element={<SingleReview/>}/>
       </Routes>
     </div>
   );
