@@ -1,12 +1,12 @@
 import { TableCell, TableRow } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function ReviewRow ({review}){
     const reviewDate = new Date(review.created_at.replace(' ', 'T'))
-    console.log(reviewDate)
     return (
         <TableRow>
             <TableCell>{review.review_id}</TableCell>
-            <TableCell>{review.title}</TableCell>
+            <TableCell><Link to={`/reviews/${review.review_id}`}>{review.title}</Link></TableCell>
             <TableCell>{review.category}</TableCell>
             <TableCell>{review.owner}</TableCell>
             <TableCell>{`${reviewDate.getDate()}/${reviewDate.getMonth()+1}/${reviewDate.getFullYear()}`}</TableCell>
