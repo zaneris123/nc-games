@@ -2,7 +2,6 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import { useEffect, useState } from "react"
 import { getAllReviews } from "./api"
 import ReviewRow from "./reviewRow"
-import { Link } from "react-router-dom"
 
 function AllReviews(){
     const [allReviews, setAllReviews] = useState([])
