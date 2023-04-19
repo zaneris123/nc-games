@@ -1,17 +1,46 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { getSingleReview } from "./api"
+import { getSingleReview, patchVoteReview } from "./api"
 import CommentSection from "./CommentSection"
+import { VoteContext } from "../contexts/voted"
 
 function SingleReview (){
     const {reviewID} = useParams()
     const [reviewData, setReviewData] = useState({})
     const [isLoading, setIsLoading] = useState(true)
+    const { hasVoted, setHasVoted } = useContext(VoteContext)
+
+    const voteHandlerUp = (event) => {
+        event.preventDefault()
+        setReviewData((currentReview)=>{
+            return {...currentReview, votes: currentReview.votes + 1}
+        })
+        setHasVoted((voted)=>{
+            return {...voted, [reviewID]:true}
+        })
+        patchVoteReview(reviewID, 1)
+    }
+    const voteHandlerDown = (event) => {
+        event.preventDefault()
+        setReviewData((currentReview)=>{
+            return {...currentReview, votes: currentReview.votes - 1}
+        })
+        setHasVoted((voted)=>{
+            return {...voted, [reviewID]:true}
+        })
+        patchVoteReview(reviewID, -1)
+    }
 
     useEffect(()=>{
         setIsLoading(true)
+
         getSingleReview(reviewID)
-        .then((review)=>{
+        .then((review)=>{        
+            if(!Object.hasOwn(hasVoted,reviewID)){
+            setHasVoted((voted)=>{
+                return {...voted, [reviewID]: false}
+            })
+        }
             setReviewData(review)
             setIsLoading(false)
         })
@@ -26,7 +55,11 @@ function SingleReview (){
                 <h4>By {reviewData.owner}</h4>
             </section>
             <p>{reviewData.review_body}</p>
-            <h5>votes: {reviewData.votes}</h5>
+            <section>
+            <p>votes: {reviewData.votes}<br/>
+            <button value="up" onClick={voteHandlerUp} disabled={hasVoted[reviewID]}><span>⬆️</span></button><button onClick={voteHandlerDown} disabled={hasVoted[reviewID]}><span>⬇️</span></button></p>
+            </section>
+
             <CommentSection reviewID={reviewID}/>
         </div>
     )
