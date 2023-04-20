@@ -29,3 +29,19 @@ export const patchVoteReview = (reviewID, value) => {
         return data.review
     })
 }
+export const getUsers = () => {
+    return gamesApi.get(`/users/`)
+    .then(({data})=>{
+        return data.users
+    })
+}
+export const postComment = (reviewID, commentData) =>{
+    return gamesApi.post(`/reviews/${reviewID}/comments`, commentData)
+    .then(({data})=>{
+        console.log(data)
+        return data.comment
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+}
