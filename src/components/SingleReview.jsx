@@ -9,6 +9,7 @@ function SingleReview (){
     const [reviewData, setReviewData] = useState({})
     const [isLoading, setIsLoading] = useState(true)
     const { hasVoted, setHasVoted } = useContext(VoteContext)
+    const [error, setError] = useState(null)
 
     const voteHandlerUp = (event) => {
         event.preventDefault()
@@ -19,6 +20,12 @@ function SingleReview (){
             return {...voted, [reviewID]:true}
         })
         patchVoteReview(reviewID, 1)
+        .catch((err)=>{
+            setReviewData((currentReview)=>{
+                return {...currentReview, votes: currentReview.votes - 1}
+            })
+            setError({err})
+        })
     }
     const voteHandlerDown = (event) => {
         event.preventDefault()
@@ -29,11 +36,16 @@ function SingleReview (){
             return {...voted, [reviewID]:true}
         })
         patchVoteReview(reviewID, -1)
+        .catch((err)=>{
+            setReviewData((currentReview)=>{
+                return {...currentReview, votes: currentReview.votes + 1}
+            })
+            setError({err})
+        })
     }
 
     useEffect(()=>{
         setIsLoading(true)
-
         getSingleReview(reviewID)
         .then((review)=>{        
             if(!Object.hasOwn(hasVoted,reviewID)){
@@ -58,6 +70,7 @@ function SingleReview (){
             <section>
             <p>votes: {reviewData.votes}<br/>
             <button value="up" onClick={voteHandlerUp} disabled={hasVoted[reviewID]}><span>⬆️</span></button><button onClick={voteHandlerDown} disabled={hasVoted[reviewID]}><span>⬇️</span></button></p>
+            {error ? <p>Unable to vote current, please try again later</p> : null}
             </section>
 
             <CommentSection reviewID={reviewID}/>
