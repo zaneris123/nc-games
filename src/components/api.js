@@ -5,8 +5,8 @@ const gamesApi = axios.create({
 })
 
 
-export const getAllReviews = () =>{
-    return gamesApi.get('/reviews')
+export const getAllReviews = ({category}) =>{
+    return gamesApi.get('/reviews',{params:{category}})
     .then(({data})=>{
         return data.reviews
     })
@@ -27,5 +27,17 @@ export const patchVoteReview = (reviewID, value) => {
     return gamesApi.patch(`/reviews/${reviewID}`, {inc_votes: value})
     .then(({data})=>{
         return data.review
+    })
+}
+
+
+
+
+
+
+export const getCategories = () => {
+    return gamesApi.get('/categories')
+    .then(({data})=>{
+        return data.categories
     })
 }

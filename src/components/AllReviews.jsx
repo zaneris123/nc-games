@@ -6,17 +6,22 @@ import ReviewRow from "./reviewRow"
 function AllReviews(){
     const [allReviews, setAllReviews] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [reviewParams, setReviewParams] = useState({category: 'stratge'})
+    const [reviewErr, setReviewErr] = useState(null)
 
     
     useEffect(()=>{
         setIsLoading(true)
-        getAllReviews()
+        getAllReviews(reviewParams)
         .then((reviews)=>{
             setAllReviews(reviews)
             setIsLoading(false)
         })
+        .catch((err)=>{
+            setReviewErr(err.response.data.msg)
+        })
     },[])
-    return isLoading ? (<p>Loading...</p>):(
+    return isLoading ? (<p>Loading...</p>):reviewErr?(<p>{reviewErr}</p>):(
         <TableContainer>
             <Table>
                 <TableHead>
