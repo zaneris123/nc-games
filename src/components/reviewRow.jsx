@@ -6,7 +6,7 @@ function ReviewRow ({review}){
     return (
         <TableRow>
             <TableCell>{review.review_id}</TableCell>
-            <TableCell><Link to={`/reviews/${review.review_id}`}>{review.title}</Link></TableCell>
+            <TableCell><Link to={`/reviews/id/${review.review_id}`}>{review.title}</Link></TableCell>
             <TableCell>{review.category}</TableCell>
             <TableCell>{review.owner}</TableCell>
             <TableCell>{`${reviewDate.getDate()}/${reviewDate.getMonth()+1}/${reviewDate.getFullYear()}`}</TableCell>
