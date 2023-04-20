@@ -14,8 +14,8 @@ function CommentSection (){
     const [reviewComments, setReviewComments] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [showComments, setShowcomments] = useState(false)
-    const { username } = useContext(UserContext)
-    const [commentErr, setCommentErr] = useState(null)
+    const { userObj } = useContext(UserContext)
+    const [isPosting, setIsPosting] = useState(false)
     
     const commentHandler = (event) => {
         event.preventDefault()
@@ -23,16 +23,15 @@ function CommentSection (){
     }
     const postCommentHandler = (event) => {
         event.preventDefault()
-        if(commentInput.length > 10){
-            postComment(reviewID,{username: username.username, body: commentInput})
-            .then((newComment)=>{
-                setReviewComments((currentComments)=>{
-                    return[...currentComments, newComment]
-                })
+        setIsPosting(true)
+        postComment(reviewID,{username: userObj.username, body: commentInput})
+        .then((newComment)=>{
+            setReviewComments((currentComments)=>{
+                setIsPosting(false)
+                setCommentInput("")
+                return[newComment,...currentComments]
             })
-        } else {
-            setCommentErr("Comment must be atleast 10 characters")
-        }
+        })
     }
 
     useEffect(()=>{
@@ -50,10 +49,8 @@ function CommentSection (){
             {!showComments ? null :             
             <TableContainer>
                 <form onSubmit={postCommentHandler}>
-                    <br/>
-                    <input type='text' onChange={(event)=>setCommentInput(event.target.value)}/>
-                    <button type='submit'>post Comment</button>
-                    <p>{commentErr}</p>
+                    <textarea type='text' value={commentInput} required onChange={(event)=>setCommentInput(event.target.value)}/><br/>
+                    <button type='submit' disabled={isPosting}>post Comment</button>
                 </form>
                 <Table>
                     <TableHead>

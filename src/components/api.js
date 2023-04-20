@@ -38,10 +38,6 @@ export const getUsers = () => {
 export const postComment = (reviewID, commentData) =>{
     return gamesApi.post(`/reviews/${reviewID}/comments`, commentData)
     .then(({data})=>{
-        console.log(data)
         return data.comment
-    })
-    .catch((err)=>{
-        console.log(err)
     })
 }

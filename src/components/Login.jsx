@@ -25,7 +25,7 @@ function Login(){
         <form onSubmit={LoginHandler}>
             <label>Please login</label><br/>
             <label>Username: </label>
-            <input type='text' onChange={(event)=>setUserInput(event.target.value)}/>
+            <input type='text' value={userInput} onChange={(event)=>setUserInput(event.target.value)}/>
             <section>
                 <button type="submit">Login</button>
             </section>

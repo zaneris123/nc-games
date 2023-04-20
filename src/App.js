@@ -8,12 +8,13 @@ import { useContext } from 'react';
 import { UserContext } from './contexts/user';
 
 function App() {
-  const { username, setUsername } = useContext(UserContext)
+  const { userObj } = useContext(UserContext)
   return (
     <div className="App">
-      {username === null ? (<Login/>):(<div><Header/>
+      {userObj === null ? (<Login/>):(<div><Header/>
       <Routes>
         <Route path="/reviews" element={<AllReviews/>}/>
+        <Route path="/" element={<AllReviews/>}/>
         <Route path="/reviews/id/:reviewID" element={<SingleReview/>}/>
       </Routes></div>)
       }
