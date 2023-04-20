@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from "@mui/material";
 import { Link } from "react-router-dom";
 
-function ReviewRow ({review, setReviewParams}){
+function ReviewRow ({review}){
     const reviewDate = new Date(review.created_at.replace(' ', 'T'))
 
     return (

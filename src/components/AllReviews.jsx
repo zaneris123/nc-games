@@ -8,7 +8,7 @@ function AllReviews(){
     const [allReviews, setAllReviews] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const { category } = useParams()
-    const [reviewParams, setReviewParams] = useState({category})
+    const [reviewParams, setReviewParams] = useState({})
     const [reviewErr, setReviewErr] = useState(null)
     const [allCategories, setAllCategories] = useState([])
     const navigate = useNavigate()
@@ -27,17 +27,16 @@ function AllReviews(){
         .then((categoriesArr)=>{
             setAllCategories(categoriesArr)
         })
-        getAllReviews(reviewParams)
+        getAllReviews({category})
         .then((reviews)=>{
             setAllReviews(reviews)
             setIsLoading(false)
         })
         .catch((err)=>{
-            console.log(err.response.data.msg)
             setReviewErr(err.response.data.msg)
             setIsLoading(false)
         })
-    },[reviewParams])
+    },[reviewParams, category])
 
     return isLoading ? (<p>Loading...</p>):(
         <TableContainer>
@@ -49,8 +48,8 @@ function AllReviews(){
                         <TableCell>Title</TableCell>
                         <TableCell>
                             <select name="category" id="category" onClick={CategoryHandler}>
-                                <option key='default' value={null}>Categories</option>
-                                {allCategories.map(singleCategory => (<option value={singleCategory.slug}>{singleCategory.slug}</option>))}
+                                <option key='default' value="">Categories</option>
+                                {allCategories.map(singleCategory => (<option key={singleCategory.slug} value={singleCategory.slug}>{singleCategory.slug}</option>))}
                             </select>
                         </TableCell>
                         <TableCell>Author</TableCell>
