@@ -13,8 +13,9 @@ function App() {
     <div className="App">
       {userObj === null ? (<Login/>):(<div><Header/>
       <Routes>
-        <Route path="/reviews" element={<AllReviews/>}/>
         <Route path="/" element={<AllReviews/>}/>
+        <Route path="/reviews" element={<AllReviews/>}/>
+        <Route path="/reviews/:category" element={<AllReviews/>}/>
         <Route path="/reviews/id/:reviewID" element={<SingleReview/>}/>
       </Routes></div>)
       }
