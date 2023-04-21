@@ -10,7 +10,6 @@ function CommentCard ({comment, setReviewComments}){
         event.preventDefault()
         if(window.confirm('Are you sure you want to delete this comment?')){
             setReviewComments((currentComments)=>{
-                console.log(currentComments)
                 return currentComments.filter(comments=>comments.comment_id!==comment.comment_id)
             })
             deleteComment(comment.comment_id)
