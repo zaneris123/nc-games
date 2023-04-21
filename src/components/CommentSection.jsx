@@ -59,11 +59,10 @@ function CommentSection (){
                             <TableCell>Posted by</TableCell>
                             <TableCell><span>📅</span></TableCell>
                             <TableCell><span>🗳️</span></TableCell>
-                            <TableCell> </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {reviewComments.map((comment)=><CommentCard key={comment.comment_id} setReviewComments={setReviewComments} comment={comment}/>)}
+                        {reviewComments.map((comment)=><CommentCard key={comment.comment_id} comment={comment}/>)}
                     </TableBody>
                 </Table>
             </TableContainer>}
