@@ -6,15 +6,18 @@ import AllReviews from './components/AllReviews';
 import SingleReview from './components/SingleReview';
 import { useContext } from 'react';
 import { UserContext } from './contexts/user';
+import NavDrawer from './components/navDrawer';
 
 function App() {
   const { userObj } = useContext(UserContext)
   return (
     <div className="App">
       {userObj === null ? (<Login/>):(<div><Header/>
+      <NavDrawer/>
       <Routes>
-        <Route path="/reviews" element={<AllReviews/>}/>
         <Route path="/" element={<AllReviews/>}/>
+        <Route path="/reviews" element={<AllReviews/>}/>
+        <Route path="/reviews/:category" element={<AllReviews/>}/>
         <Route path="/reviews/id/:reviewID" element={<SingleReview/>}/>
       </Routes></div>)
       }

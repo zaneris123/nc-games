@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 function ReviewRow ({review}){
     const reviewDate = new Date(review.created_at.replace(' ', 'T'))
+
     return (
         <TableRow>
             <TableCell>{review.review_id}</TableCell>
