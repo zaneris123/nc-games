@@ -13,6 +13,9 @@ function CommentCard ({comment, setReviewComments}){
                 return currentComments.filter(comments=>comments.comment_id!==comment.comment_id)
             })
             deleteComment(comment.comment_id)
+            .catch(()=>{
+                alert("Error deleting comment")
+            })
         }
     }
 
