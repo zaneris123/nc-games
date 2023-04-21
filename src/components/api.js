@@ -47,6 +47,3 @@ export const getCategories = () => {
         return data.categories
     })
 }
-export const deleteComment = (commentId) => {
-    return gamesApi.delete(`/comments/${commentId}`)
-}
