@@ -3,7 +3,7 @@ import { UserContext } from "../contexts/user"
 import { getUsers } from "./api"
 
 function Login(){
-  const { username, setUsername } = useContext(UserContext)
+  const { userObj, setUserObj } = useContext(UserContext)
   const [userInput, setUserInput] = useState("")
   const [userErr, setUserErr] = useState(false)
 
@@ -13,10 +13,10 @@ function Login(){
     .then((users)=>{
         for(let i = 0; i < users.length; i++){
             if(users[i].username === userInput){
-                setUsername(users[i])
+                setUserObj(users[i])
             }
         }
-        if(username === null){
+        if(userObj === null){
             setUserErr(true)
         }
     })

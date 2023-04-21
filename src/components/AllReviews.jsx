@@ -2,23 +2,35 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import { useEffect, useState } from "react"
 import { getAllReviews, getCategories } from "./api"
 import ReviewRow from "./reviewRow"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 
 function AllReviews(){
     const [allReviews, setAllReviews] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [searchParams, setSearchParams] = useSearchParams()
     const { category } = useParams()
-    const [reviewParams, setReviewParams] = useState({})
     const [reviewErr, setReviewErr] = useState(null)
     const [allCategories, setAllCategories] = useState([])
     const navigate = useNavigate()
+    const order_by = searchParams.get('order_by')
+    const order = searchParams.get('order')
 
     const CategoryHandler = (event) => {
         event.preventDefault()
         navigate(`/reviews/${event.target.value}`, {replace: true})
-        setReviewParams((currentParams)=>{
-            return {...currentParams, category: event.target.value}
-        })
+    }
+    const OrderingHandler = (event, value) => {
+        event.preventDefault()
+        const newParams = new URLSearchParams(searchParams)
+        if(newParams.get('order_by') === value){
+            if(newParams.get('order')==='desc'){
+                newParams.set('order','asc')
+            } else{
+                newParams.set('order','desc')
+            }
+        }
+        newParams.set('order_by', value)
+        setSearchParams(newParams)
     }
     
     useEffect(()=>{
@@ -27,7 +39,7 @@ function AllReviews(){
         .then((categoriesArr)=>{
             setAllCategories(categoriesArr)
         })
-        getAllReviews({category})
+        getAllReviews({category, order_by, order})
         .then((reviews)=>{
             setAllReviews(reviews)
             setIsLoading(false)
@@ -36,7 +48,7 @@ function AllReviews(){
             setReviewErr(err.response.data.msg)
             setIsLoading(false)
         })
-    },[reviewParams, category])
+    },[category, order_by, order])
 
     return isLoading ? (<p>Loading...</p>):(
         <TableContainer>
@@ -44,19 +56,19 @@ function AllReviews(){
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>ID #</TableCell>
+                        <TableCell>ID</TableCell>
                         <TableCell>Title</TableCell>
                         <TableCell>
                             <select name="category" id="category" onChange={CategoryHandler}>
                                 <option key='default' value="">Categories</option>
-                                <option key='default' value="">All</option>
+                                <option key='All' value="">All</option>
                                 {allCategories.map(singleCategory => (<option key={singleCategory.slug} value={singleCategory.slug}>{singleCategory.slug}</option>))}
                             </select>
                         </TableCell>
                         <TableCell>Author</TableCell>
-                        <TableCell><span>📅</span></TableCell>
-                        <TableCell><span>🗨️</span></TableCell>
-                        <TableCell><span>🗳️</span></TableCell>
+                        <TableCell><button onClick={(event)=>OrderingHandler(event, "created_at")} ><span>📅</span></button></TableCell>
+                        <TableCell><button onClick={(event)=>OrderingHandler(event, "comment_count")} ><span>🗨️</span></button></TableCell>
+                        <TableCell><button onClick={(event)=>OrderingHandler(event, "votes")} ><span>🗳️</span></button></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
