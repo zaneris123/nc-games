@@ -47,8 +47,9 @@ function AllReviews(){
                         <TableCell>ID #</TableCell>
                         <TableCell>Title</TableCell>
                         <TableCell>
-                            <select name="category" id="category" onClick={CategoryHandler}>
+                            <select name="category" id="category" onChange={CategoryHandler}>
                                 <option key='default' value="">Categories</option>
+                                <option key='default' value="">All</option>
                                 {allCategories.map(singleCategory => (<option key={singleCategory.slug} value={singleCategory.slug}>{singleCategory.slug}</option>))}
                             </select>
                         </TableCell>
