@@ -1,5 +1,7 @@
 import { useContext } from "react"
 import { UserContext } from "../contexts/user"
+import { Avatar, Chip, Grid } from "@mui/material"
+import { LogoutRounded } from "@mui/icons-material"
 
 function Header (){
     const { userObj, setUserObj } = useContext(UserContext)
@@ -11,9 +13,14 @@ function Header (){
     }
     return (
         <div>
-            <h1>NC GAMES</h1>
-            {userObj !== null ? (<section><p>Logged in as {userObj.username}</p><button onClick={LogoutHandler}>logout</button></section>): null}
-            <h3>NAV</h3>
+            <Grid container alignItems="center" justifyContent="space-between">
+                <Grid xs={6}>
+                <h1>NC GAMES</h1>
+                </Grid>
+                <Grid xs={6}>
+                    {userObj !== null ? (<Chip deleteIcon={<LogoutRounded/>} onDelete={LogoutHandler} avatar={<Avatar src={userObj.avatar_url}/>} label={userObj.username}/>): null}
+                </Grid>
+            </Grid>
         </div>
     )
 }

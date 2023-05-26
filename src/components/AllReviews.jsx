@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material"
 import { useEffect, useState } from "react"
 import { getAllReviews, getCategories } from "./api"
 import ReviewRow from "./reviewRow"
@@ -53,7 +53,7 @@ function AllReviews(){
     return isLoading ? (<p>Loading...</p>):(
         <TableContainer>
             {reviewErr?<p><br/>{reviewErr}</p>:
-            <Table>
+            <Table size="small">
                 <TableHead>
                     <TableRow>
                         <TableCell>ID</TableCell>
@@ -66,9 +66,9 @@ function AllReviews(){
                             </select>
                         </TableCell>
                         <TableCell>Author</TableCell>
-                        <TableCell><button onClick={(event)=>OrderingHandler(event, "created_at")} ><span>📅</span></button></TableCell>
-                        <TableCell><button onClick={(event)=>OrderingHandler(event, "comment_count")} ><span>🗨️</span></button></TableCell>
-                        <TableCell><button onClick={(event)=>OrderingHandler(event, "votes")} ><span>🗳️</span></button></TableCell>
+                        <TableCell><TableSortLabel active={order_by==="created_at"} direction={order} onClick={(event)=>OrderingHandler(event, "created_at")}><span>📅</span></TableSortLabel></TableCell>
+                        <TableCell><TableSortLabel active={order_by==="comment_count"} direction={order} onClick={(event)=>OrderingHandler(event, "comment_count")} ><span>🗨️</span></TableSortLabel></TableCell>
+                        <TableCell><TableSortLabel active={order_by==="votes"} direction={order} onClick={(event)=>OrderingHandler(event, "votes")} ><span>🗳️</span></TableSortLabel></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

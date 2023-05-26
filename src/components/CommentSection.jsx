@@ -3,7 +3,8 @@ import { useState } from "react"
 import { getReviewComments, postComment } from "./api"
 import { useParams } from "react-router-dom"
 import CommentCard from "./CommentCard"
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
+import { ExpandMore, Send } from "@mui/icons-material"
+import { Accordion, AccordionDetails, AccordionSummary, Button, IconButton, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import { UserContext } from "../contexts/user"
 
 
@@ -45,28 +46,26 @@ function CommentSection (){
 
     return isLoading ? (<p>Loading...</p>):(
         <section>
-            <button onClick={commentHandler}>Comments - {reviewComments.length}</button>
-            {!showComments ? null :             
-            <TableContainer>
-                <form onSubmit={postCommentHandler}>
-                    <textarea type='text' value={commentInput} required onChange={(event)=>setCommentInput(event.target.value)}/><br/>
-                    <button type='submit' disabled={isPosting}>post Comment</button>
-                </form>
+            <Accordion>
+                <AccordionSummary expandIcon={<ExpandMore/>}>
+                    Comments - {reviewComments.length} 
+                </AccordionSummary>
+                <AccordionDetails>
+                <TableContainer>
+                    <Paper onSubmit={postCommentHandler} component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center'}}>
+                        <InputBase onChange={(event)=>setCommentInput(event.target.value)} required multiline placeholder="Input Comment" sx={{ml: 1, flex: 1}}/>
+                        <Button type="submit" disabled={isPosting} endIcon={<Send/>} sx={{px: '10px'}}>post</Button>
+                    </Paper>
                 <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Comment</TableCell>
-                            <TableCell>Posted by</TableCell>
-                            <TableCell><span>📅</span></TableCell>
-                            <TableCell><span>🗳️</span></TableCell>
-                            <TableCell> </TableCell>
-                        </TableRow>
-                    </TableHead>
+                    
                     <TableBody>
                         {reviewComments.map((comment)=><CommentCard key={comment.comment_id} setReviewComments={setReviewComments} comment={comment}/>)}
                     </TableBody>
                 </Table>
-            </TableContainer>}
+            </TableContainer>
+                </AccordionDetails>
+            </Accordion>
+            {!showComments ? null : <p></p>}
             <p></p>
         </section>
     )
